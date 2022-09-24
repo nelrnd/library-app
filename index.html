@@ -7,7 +7,33 @@
   </head>
   <body>
     <h1>Library App</h1>
-    
+
+    <div class="add-book">
+      <form action="" method="" id="add-book-form">
+        <ul>
+          <li>
+            <label for="title">Book title</label>
+            <input type="text" id="title" name="book-title">
+          </li>
+          <li>
+            <label for="author">Author</label>
+            <input type="text" id="author" name="book-author">
+          </li>
+          <li>
+            <label for="pages">Nb. of pages</label>
+            <input type="number" id="pages" name="book-pages">
+          </li>
+          <li>
+            <input type="checkbox" id="read-yet" name="book-read-yet">
+            <label for="read-yet">I have read it already</label>
+          </li>
+          <li>
+            <button type="submit">Add book to library</button>
+          </li>
+        </ul>
+      </form>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>
