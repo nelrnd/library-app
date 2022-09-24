@@ -3,3 +3,16 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+#library-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.item {
+  border: solid 2px grey;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 120px 120px;
+  gap: 2rem;
+}

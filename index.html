@@ -13,15 +13,15 @@
         <ul>
           <li>
             <label for="title">Book title</label>
-            <input type="text" id="title" name="book-title">
+            <input type="text" id="title" name="book-title" required>
           </li>
           <li>
             <label for="author">Author</label>
-            <input type="text" id="author" name="book-author">
+            <input type="text" id="author" name="book-author" required>
           </li>
           <li>
             <label for="pages">Nb. of pages</label>
-            <input type="number" id="pages" name="book-pages">
+            <input type="number" id="pages" name="book-pages" required>
           </li>
           <li>
             <input type="checkbox" id="read-yet" name="book-read-yet">
@@ -33,6 +33,8 @@
         </ul>
       </form>
     </div>
+
+    <div id="library-grid"></div>
 
     <script src="script.js"></script>
   </body>
