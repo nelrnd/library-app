@@ -4,11 +4,21 @@
     <meta charset="utf-8">
     <title>Library App</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="logo.png">
   </head>
   <body>
-    <h1>Library App</h1>
+    <header>
+      <div>
+        <img src="./logo.png" alt="library logo">
+        <h1>My Library App</h1>
+      </div>
+      <button onclick="displayForm()">Add New Book</button>
+    </header>
 
-    <div class="add-book">
+    <div class="add-book hidden">
+      <div id="close-btn" onclick="hideForm()">
+        <img src="./close.svg" alt="close icon">
+      </div>
       <form action="" method="" id="add-book-form">
         <ul>
           <li>
@@ -32,6 +42,21 @@
           </li>
         </ul>
       </form>
+    </div>
+    <div class="add-book-background hidden" onclick="hideForm()"></div>
+
+    <div class="library-top-bar">
+      <div>
+        <span id="nb-of-books">0</span> books
+      </div>
+      <div>
+        <button onclick="updateGridStyle('row')">
+          <img src="./grid-row.svg" alt="grid row icon">
+        </button>
+        <button onclick="updateGridStyle('col')">
+          <img src="./grid-col.svg" alt="grid col icon">
+        </button>
+      </div>
     </div>
 
     <div id="library-grid"></div>

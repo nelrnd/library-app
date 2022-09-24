@@ -9,7 +9,6 @@ function Book(title, author, pages, readYet) {
 
 Book.prototype.toggleRead = function() {
   this.readYet = this.readYet ? false : true;
-  displayBooks();
 }
 
 Book.prototype.remove = function() {
@@ -18,7 +17,6 @@ Book.prototype.remove = function() {
   }
   const bookIndex = library.findIndex(findBookIndex);
   library.splice(bookIndex, 1);
-  displayBooks();
 }
 
 function addBookToLibrary() {
@@ -57,17 +55,26 @@ function displayBooks() {
     item.appendChild(pages);
 
     const readBtn = document.createElement('button');
-    readBtn.textContent = book.readYet ? 'Already read it' : 'Not read yet';
-    readBtn.addEventListener('click', () => book.toggleRead());
+    readBtn.textContent = book.readYet ? 'Already read' : 'Not read yet';
+    if (book.readYet) readBtn.className = 'active';
+    readBtn.addEventListener('click', () => {
+      book.toggleRead();
+      displayBooks();
+    });
     item.appendChild(readBtn);
 
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'remove';
-    removeBtn.addEventListener('click', () => book.remove());
+    removeBtn.addEventListener('click', () => {
+      book.remove();
+      displayBooks();
+    });
     item.appendChild(removeBtn);
 
     document.querySelector('#library-grid').appendChild(item);
   });
+
+  updateTopBar();
 }
 
 function resetForm() {
@@ -75,4 +82,25 @@ function resetForm() {
   document.querySelector('#author').value = '';
   document.querySelector('#pages').value = '';
   document.querySelector('#read-yet').checked = false;
+}
+
+function displayForm() {
+  document.querySelector('.add-book').classList.remove('hidden');
+  document.querySelector('.add-book-background').classList.remove('hidden');
+}
+function hideForm() {
+  document.querySelector('.add-book').classList.add('hidden');
+  document.querySelector('.add-book-background').classList.add('hidden');
+}
+
+function updateGridStyle(type) {
+  if (type == 'row') {
+    document.querySelector('#library-grid').classList.remove('cols');
+  } else {
+    document.querySelector('#library-grid').classList.add('cols');
+  }
+}
+
+function updateTopBar() {
+  document.querySelector('#nb-of-books').textContent = library.length;
 }

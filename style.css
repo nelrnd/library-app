@@ -1,18 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+:root {
+  --main: #009C93;
+  --light: #D4ECEB;
+  --grey: #DFDFDF;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 18px;
+}
+
+body {
+  font-family: Lato, sans-serif;
+  background-color: var(--light);
+}
+
+header {
+  background-color: white;
+  height: 100px;
+  padding: 0 7.5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 2px rgba(0,0,0,.1);
+}
+header div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+header h1 {
+  font-size: 30px;
+}
+
+button {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 12px 20px;
+  color: white;
+  background-color: var(--main);
+  border: solid 2px transparent;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  color: var(--main);
+  background-color: transparent;
+  border-color: var(--main);
+}
+
+.add-book {
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+
+  background-color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 2px rgba(0,0,0,.1);
+}
+
+.hidden {
+  display: none;
+}
+
+ul {
+  list-style: none;
+}
+
+.add-book li + li {
+  margin-top: 1rem;
+}
+
+label {
+  font-size: 18px;
+}
+label + input {
+  font-size: 18px;
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  border: solid 2px var(--grey);
+  border-radius: 10px;
+}
+
+#close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  cursor: pointer;
+  opacity: .7;
+}
+#close-btn:hover {
+  opacity: .9;
+  background-color: var(--grey);
+}
+.add-book-background {
+  background-color: rgba(0,0,0,.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
 }
 
 #library-grid {
+  padding: 0 7.5vw;
   display: grid;
   gap: 1rem;
 }
 
+#library-grid.cols {
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+#library-grid.cols .item {
+  grid-template-columns: 1fr;
+}
+
 .item {
-  border: solid 2px grey;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 2px rgba(0,0,0,.1);
   padding: 2rem;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 120px 120px;
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr) 150px 150px;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item button {
+  font-size: 18px;
+  font-weight: normal;
+  color: var(--main);
+  background-color: transparent;
+  border-color: var(--main);
+}
+.item button:hover,
+.item button.active {
+  color: white;
+  background-color: var(--main);
+}
+
+.library-top-bar {
+  background-color: white;
+  padding: .5rem;
+  margin: 2rem 7.5vw 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 2px rgba(0,0,0,.1);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.library-top-bar button {
+  background-color: var(--grey);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 5px;
+  opacity: .7;
+}
+.library-top-bar button:hover {
+  opacity: 1;
 }
