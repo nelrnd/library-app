@@ -1,106 +1,135 @@
+// the array in which all book objects are stored
 const library = [];
 
-function Book(title, author, pages, readYet) {
+// constructor to build book objects
+function Book(title, author, nbOfPages, readStatus) {
   this.title = title;
   this.author = author;
-  this.pages = pages;
-  this.readYet = readYet ? readYet : false;
+  this.nbOfPages = nbOfPages;
+  this.readStatus = readStatus || false;
 }
 
-Book.prototype.toggleRead = function() {
-  this.readYet = this.readYet ? false : true;
-}
+// create and return html card of the book object
+Book.prototype.createCard = function() {
+  const title = document.createElement('h2');
+  title.textContent = this.title;
+  const author = document.createElement('p');
+  author.textContent = 'by ' + this.author;
+  const nbOfPages = document.createElement('p');
+  nbOfPages.textContent = this.nbOfPages + ' pages';
 
-Book.prototype.remove = function() {
-  const findBookIndex = book => {
-    return book.title === this.title && book.author === this.author;
-  }
-  const bookIndex = library.findIndex(findBookIndex);
-  library.splice(bookIndex, 1);
-}
-
-function addBookToLibrary() {
-  const title = document.querySelector('#title').value;
-  const author = document.querySelector('#author').value;
-  const pages = document.querySelector('#pages').value;
-  const readYet = document.querySelector('#read-yet').checked;
-
-  const newBook = new Book(title, author, pages, readYet);
-
-  library.push(newBook);
-  displayBooks();
-}
-
-document.querySelector('#add-book-form').addEventListener('submit', event => {
-  event.preventDefault();
-  addBookToLibrary();
-  resetForm();
-});
-
-function displayBooks() {
-  // Empty the list
-  document.querySelector('#library-grid').innerHTML = '';
-
-  library.forEach(book => {
-    const item = document.createElement('div');
-    item.classList.add('item');
-    const title = document.createElement('h3');
-    title.textContent = book.title;
-    item.appendChild(title);
-    const author = document.createElement('p');
-    author.textContent = 'by ' + book.author;
-    item.appendChild(author);
-    const pages = document.createElement('p');
-    pages.textContent = book.pages + ' pages';
-    item.appendChild(pages);
-
-    const readBtn = document.createElement('button');
-    readBtn.textContent = book.readYet ? 'Already read' : 'Not read yet';
-    if (book.readYet) readBtn.className = 'active';
-    readBtn.addEventListener('click', () => {
-      book.toggleRead();
-      displayBooks();
-    });
-    item.appendChild(readBtn);
-
-    const removeBtn = document.createElement('button');
-    removeBtn.textContent = 'remove';
-    removeBtn.addEventListener('click', () => {
-      book.remove();
-      displayBooks();
-    });
-    item.appendChild(removeBtn);
-
-    document.querySelector('#library-grid').appendChild(item);
+  const readButton = document.createElement('button');
+  readButton.textContent = this.readStatus ? 'Already read' : 'Not read yet';
+  readButton.classList.add('main', 'smaller');
+  if (this.readStatus) readButton.classList.add('active');
+  readButton.addEventListener('click', () => {
+    this.toggleReadStatus();
+    this.updateCard();
   });
 
-  updateTopBar();
+  const removeButton = document.createElement('button');
+  removeButton.textContent = 'remove';
+  removeButton.classList.add('main', 'smaller');
+  removeButton.addEventListener('click', () => {
+    this.remove();
+  });
+
+  const card = document.createElement('div');
+  card.classList.add('card');
+  card.append(title, author, nbOfPages, readButton, removeButton);
+  return card;
 }
 
-function resetForm() {
-  document.querySelector('#title').value = '';
-  document.querySelector('#author').value = '';
-  document.querySelector('#pages').value = '';
-  document.querySelector('#read-yet').checked = false;
+// update card when a change is made to book object
+Book.prototype.updateCard = function() {
+  const bookIndex = this.findIndex();
+  document.querySelectorAll('.card')[bookIndex].replaceWith(this.createCard());
 }
 
-function displayForm() {
-  document.querySelector('.add-book').classList.remove('hidden');
-  document.querySelector('.add-book-background').classList.remove('hidden');
-}
-function hideForm() {
-  document.querySelector('.add-book').classList.add('hidden');
-  document.querySelector('.add-book-background').classList.add('hidden');
+// toggle book read status
+Book.prototype.toggleReadStatus = function() {
+  this.readStatus = !this.readStatus;
 }
 
-function updateGridStyle(type) {
-  if (type == 'row') {
-    document.querySelector('#library-grid').classList.remove('cols');
-  } else {
-    document.querySelector('#library-grid').classList.add('cols');
-  }
+// return position of the book in library array
+Book.prototype.findIndex = function() {
+  return library.findIndex(book => {
+    return book.title === this.title && book.author === this.author;
+  });
 }
 
-function updateTopBar() {
+// delete book from library array and from html list
+Book.prototype.remove = function() {
+  console.log(this);
+  const bookIndex = this.findIndex();
+  library.splice(bookIndex, 1);
+  document.querySelectorAll('.card')[bookIndex].remove();
+
+  // Update number of books on top bar
+  updateNbOfBooks();
+}
+
+const form = document.querySelector('#add-book-form');
+form.addEventListener('submit', event => {
+  // Prevent the form from submitting
+  event.preventDefault();
+
+  addBookToLibrary();
+
+  // Clear all form inputs
+  form.reset();
+  // Close modal after submitting
+  closeModal();
+});
+
+function addBookToLibrary() {
+  // Gather input values
+  const title = document.querySelector('#title').value;
+  const author = document.querySelector('#author').value;
+  const nbOfPages = document.querySelector('#nb-of-pages').value;
+  const readStatus = document.querySelector('#read-status').checked;
+
+  // Create book object from user inputs and add it to library array
+  const newBook = new Book(title, author, nbOfPages, readStatus);
+  library.push(newBook);
+
+  // Create an html card from book object and add it to html list
+  const card = newBook.createCard();
+  document.querySelector('#library-list').appendChild(card);
+
+  // Update number of books on top bar
+  updateNbOfBooks();
+}
+
+
+document.querySelector('#row-display-btn').addEventListener('click', () => {
+  document.querySelector('#library-list').classList.remove('col-display');
+});
+document.querySelector('#col-display-btn').addEventListener('click', () => {
+  document.querySelector('#library-list').classList.add('col-display');
+});
+
+
+function updateNbOfBooks() {
   document.querySelector('#nb-of-books').textContent = library.length;
 }
+
+
+function openModal() {
+  document.querySelector('#modal').classList.remove('hidden');
+}
+function closeModal() {
+  document.querySelector('#modal').classList.add('hidden');
+}
+
+const openModalButton = document.querySelector('#open-modal-btn');
+openModalButton.addEventListener('click', openModal);
+
+const closeModalButton = document.querySelector('#close-modal-btn');
+closeModalButton.addEventListener('click', closeModal);
+
+const modal = document.querySelector('#modal');
+modal.addEventListener('click', event => {
+  // If user clicks outside of modal content, close modal
+  if (event.target === modal) closeModal();
+});

@@ -18,25 +18,29 @@ body {
   background-color: var(--light);
 }
 
+ul {
+  list-style: none;
+}
+
 header {
   background-color: white;
   height: 100px;
   padding: 0 7.5vw;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   box-shadow: 0 2px 2px rgba(0,0,0,.1);
 }
-header div {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+
 header h1 {
   font-size: 30px;
 }
 
-button {
+.push-right {
+  margin-left: auto;
+}
+
+button.main {
   font-size: 20px;
   font-weight: bold;
   padding: 12px 20px;
@@ -47,133 +51,123 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button.main:hover,
+button.smaller {
   color: var(--main);
   background-color: transparent;
   border-color: var(--main);
 }
 
-.add-book {
-  width: 400px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-
-  background-color: white;
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 2px 2px rgba(0,0,0,.1);
-}
-
-.hidden {
-  display: none;
-}
-
-ul {
-  list-style: none;
-}
-
-.add-book li + li {
-  margin-top: 1rem;
-}
-
-label {
+button.smaller {
   font-size: 18px;
-}
-label + input {
-  font-size: 18px;
-  display: block;
-  width: 100%;
-  margin-top: 8px;
-  padding: 12px;
-  border: solid 2px var(--grey);
-  border-radius: 10px;
+  font-weight: normal;
 }
 
-#close-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 4px;
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  cursor: pointer;
-  opacity: .7;
-}
-#close-btn:hover {
-  opacity: .9;
-  background-color: var(--grey);
-}
-.add-book-background {
-  background-color: rgba(0,0,0,.3);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 5;
+button.smaller:hover,
+button.smaller.active {
+  color: white;
+  background-color: var(--main);
+  border: solid 2px transparent;
 }
 
-#library-grid {
+#library-list {
   padding: 0 7.5vw;
   display: grid;
   gap: 1rem;
 }
 
-#library-grid.cols {
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-}
-#library-grid.cols .item {
-  grid-template-columns: 1fr;
-}
-
-.item {
+.card {
   background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 2px rgba(0,0,0,.1);
   padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+
   display: grid;
   grid-template-columns: repeat(3, 1fr) 150px 150px;
   align-items: center;
   gap: 1rem;
 }
 
-.item button {
-  font-size: 18px;
-  font-weight: normal;
-  color: var(--main);
-  background-color: transparent;
-  border-color: var(--main);
+#library-list.col-display {
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
-.item button:hover,
-.item button.active {
-  color: white;
-  background-color: var(--main);
+#library-list.col-display .card {
+  grid-template-columns: 1fr;
 }
+
+/* Library top bar styling */
 
 .library-top-bar {
   background-color: white;
-  padding: .5rem;
   margin: 2rem 7.5vw 1rem;
+  padding: .5rem;
   border-radius: 10px;
   box-shadow: 0 2px 2px rgba(0,0,0,.1);
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: .5rem;
 }
 
-.library-top-bar button {
+button.icon-btn {
   background-color: var(--grey);
   width: 36px;
   height: 36px;
   padding: 0;
-  border-radius: 5px;
-  opacity: .7;
+  border: none;  
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0.7;
 }
-.library-top-bar button:hover {
+button.icon-btn:hover {
   opacity: 1;
+}
+
+/* Modal styling */
+
+.hidden {
+  display: none !important;
+}
+
+#modal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.3);
+
+  /* Center modal content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  width: min(400px, 100%);
+  padding: 2rem;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.modal-content li {
+  margin-top: 1rem;
+}
+
+.modal-content label + input {
+  display: block;
+  width: 100%;
+  margin-top: .5rem;
+  padding: 12px;
+  border: solid 2px var(--grey);
+  border-radius: 10px;
+}
+
+#close-modal-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
