@@ -74,7 +74,8 @@ form.addEventListener('submit', event => {
   // Prevent the form from submitting
   event.preventDefault();
 
-  addBookToLibrary();
+  const book = createBookFromInputs();
+  addBookToLibrary(book);
 
   // Clear all form inputs
   form.reset();
@@ -82,23 +83,28 @@ form.addEventListener('submit', event => {
   closeModal();
 });
 
-function addBookToLibrary() {
+function addBookToLibrary(book) {
+  // Add book to library array
+  library.push(book);
+
+  // Create an html card from book object and add it to html list
+  const card = book.createCard();
+  document.querySelector('#library-list').appendChild(card);
+
+  // Update number of books on top bar
+  updateNbOfBooks();
+}
+
+function createBookFromInputs() {
   // Gather input values
   const title = document.querySelector('#title').value;
   const author = document.querySelector('#author').value;
   const nbOfPages = document.querySelector('#nb-of-pages').value;
   const readStatus = document.querySelector('#read-status').checked;
 
-  // Create book object from user inputs and add it to library array
-  const newBook = new Book(title, author, nbOfPages, readStatus);
-  library.push(newBook);
-
-  // Create an html card from book object and add it to html list
-  const card = newBook.createCard();
-  document.querySelector('#library-list').appendChild(card);
-
-  // Update number of books on top bar
-  updateNbOfBooks();
+  // Create and return book object
+  const book = new Book(title, author, nbOfPages, readStatus);
+  return book;
 }
 
 
@@ -133,3 +139,7 @@ modal.addEventListener('click', event => {
   // If user clicks outside of modal content, close modal
   if (event.target === modal) closeModal();
 });
+
+// Add some books for presentation purpose
+addBookToLibrary(new Book('Deep Work', 'Cal Newport', 296, true));
+addBookToLibrary(new Book('The Power of Now', 'Eckhart Tolle', 236, false));
