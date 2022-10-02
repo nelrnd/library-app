@@ -1,72 +1,67 @@
 // the array in which all book objects are stored
 const library = [];
 
-// constructor to build book objects
-function Book(title, author, nbOfPages, readStatus) {
-  this.title = title;
-  this.author = author;
-  this.nbOfPages = nbOfPages;
-  this.readStatus = readStatus || false;
-}
+class Book {
+  constructor(title, author, nbOfPages, readStatus) {
+    this.title = title;
+    this.author = author;
+    this.nbOfPages = nbOfPages;
+    this.readStatus = readStatus || false;
+  }
 
-// create and return html card of the book object
-Book.prototype.createCard = function() {
-  const title = document.createElement('h2');
-  title.textContent = this.title;
-  const author = document.createElement('p');
-  author.textContent = 'by ' + this.author;
-  const nbOfPages = document.createElement('p');
-  nbOfPages.textContent = this.nbOfPages + ' pages';
+  createCard() {
+    const title = document.createElement('h2');
+    title.textContent = this.title;
+    const author = document.createElement('p');
+    author.textContent = 'by ' + this.author;
+    const nbOfPages = document.createElement('p');
+    nbOfPages.textContent = this.nbOfPages + ' pages';
+  
+    const readButton = document.createElement('button');
+    readButton.textContent = this.readStatus ? 'Already read' : 'Not read yet';
+    readButton.classList.add('main', 'smaller');
+    if (this.readStatus) readButton.classList.add('active');
+    readButton.addEventListener('click', () => {
+      this.toggleReadStatus();
+      this.updateCard();
+    });
+  
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'remove';
+    removeButton.classList.add('main', 'smaller');
+    removeButton.addEventListener('click', () => {
+      this.remove();
+    });
+  
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.append(title, author, nbOfPages, readButton, removeButton);
+    return card;
+  }
 
-  const readButton = document.createElement('button');
-  readButton.textContent = this.readStatus ? 'Already read' : 'Not read yet';
-  readButton.classList.add('main', 'smaller');
-  if (this.readStatus) readButton.classList.add('active');
-  readButton.addEventListener('click', () => {
-    this.toggleReadStatus();
-    this.updateCard();
-  });
+  updateCard() {
+    const bookIndex = this.findIndex();
+    document.querySelectorAll('.card')[bookIndex].replaceWith(this.createCard());
+  }
 
-  const removeButton = document.createElement('button');
-  removeButton.textContent = 'remove';
-  removeButton.classList.add('main', 'smaller');
-  removeButton.addEventListener('click', () => {
-    this.remove();
-  });
+  toggleReadStatus() {
+    this.readStatus = !this.readStatus;
+  }
 
-  const card = document.createElement('div');
-  card.classList.add('card');
-  card.append(title, author, nbOfPages, readButton, removeButton);
-  return card;
-}
+  findIndex() {
+    return library.findIndex(book => {
+      return book.title === this.title && book.author === this.author;
+    });
+  }
 
-// update card when a change is made to book object
-Book.prototype.updateCard = function() {
-  const bookIndex = this.findIndex();
-  document.querySelectorAll('.card')[bookIndex].replaceWith(this.createCard());
-}
-
-// toggle book read status
-Book.prototype.toggleReadStatus = function() {
-  this.readStatus = !this.readStatus;
-}
-
-// return position of the book in library array
-Book.prototype.findIndex = function() {
-  return library.findIndex(book => {
-    return book.title === this.title && book.author === this.author;
-  });
-}
-
-// delete book from library array and from html list
-Book.prototype.remove = function() {
-  console.log(this);
-  const bookIndex = this.findIndex();
-  library.splice(bookIndex, 1);
-  document.querySelectorAll('.card')[bookIndex].remove();
-
-  // Update number of books on top bar
-  updateNbOfBooks();
+  remove() {
+    console.log(this);
+    const bookIndex = this.findIndex();
+    library.splice(bookIndex, 1);
+    document.querySelectorAll('.card')[bookIndex].remove();
+  
+    updateNbOfBooks();
+  }
 }
 
 const form = document.querySelector('#add-book-form');
