@@ -71,13 +71,17 @@ form.addEventListener('submit', (event) => {
   // Prevent the form from submitting
   event.preventDefault();
 
-  const book = createBookFromInputs();
-  addBookToLibrary(book);
+  if (!form.checkValidity()) {
+    validateForm();
+  } else {
+    const book = createBookFromInputs();
+    addBookToLibrary(book);
 
-  // Clear all form inputs
-  form.reset();
-  // Close modal after submitting
-  closeModal();
+    // Clear all form inputs
+    form.reset();
+    // Close modal after submitting
+    closeModal();
+  }
 });
 
 function addBookToLibrary(book) {
@@ -137,3 +141,49 @@ modal.addEventListener('click', (event) => {
 // Add some books for presentation purpose
 addBookToLibrary(new Book('Deep Work', 'Cal Newport', 296, true));
 addBookToLibrary(new Book('The Power of Now', 'Eckhart Tolle', 236, false));
+
+// Form validation
+
+const bookTitle = document.querySelector('#title');
+const bookAuthor = document.querySelector('#author');
+const nbOfPages = document.querySelector('#nb-of-pages');
+
+function validateForm() {
+  validateNbOfPages();
+  nbOfPages.addEventListener('input', validateNbOfPages);
+
+  validateBookAuthor();
+  bookAuthor.addEventListener('input', validateBookAuthor);
+
+  validateBookTitle();
+  bookTitle.addEventListener('input', validateBookTitle);
+}
+
+function validateBookTitle() {
+  if (bookTitle.validity.valueMissing) {
+    bookTitle.setCustomValidity('You must specifity the title of the book');
+    bookTitle.reportValidity();
+  } else {
+    bookTitle.setCustomValidity('');
+  }
+}
+
+function validateBookAuthor() {
+  if (bookAuthor.validity.valueMissing) {
+    bookAuthor.setCustomValidity('You must specifity the author of the book');
+    bookAuthor.reportValidity();
+  } else {
+    bookAuthor.setCustomValidity('');
+  }
+}
+
+function validateNbOfPages() {
+  if (nbOfPages.validity.valueMissing) {
+    nbOfPages.setCustomValidity(
+      'You must specifity the number of pages of the book'
+    );
+    nbOfPages.reportValidity();
+  } else {
+    nbOfPages.setCustomValidity('');
+  }
+}
