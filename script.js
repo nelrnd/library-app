@@ -16,7 +16,7 @@ class Book {
     author.textContent = 'by ' + this.author;
     const nbOfPages = document.createElement('p');
     nbOfPages.textContent = this.nbOfPages + ' pages';
-  
+
     const readButton = document.createElement('button');
     readButton.textContent = this.readStatus ? 'Already read' : 'Not read yet';
     readButton.classList.add('main', 'smaller');
@@ -25,14 +25,14 @@ class Book {
       this.toggleReadStatus();
       this.updateCard();
     });
-  
+
     const removeButton = document.createElement('button');
     removeButton.textContent = 'remove';
     removeButton.classList.add('main', 'smaller');
     removeButton.addEventListener('click', () => {
       this.remove();
     });
-  
+
     const card = document.createElement('div');
     card.classList.add('card');
     card.append(title, author, nbOfPages, readButton, removeButton);
@@ -41,7 +41,9 @@ class Book {
 
   updateCard() {
     const bookIndex = this.findIndex();
-    document.querySelectorAll('.card')[bookIndex].replaceWith(this.createCard());
+    document
+      .querySelectorAll('.card')
+      [bookIndex].replaceWith(this.createCard());
   }
 
   toggleReadStatus() {
@@ -49,7 +51,7 @@ class Book {
   }
 
   findIndex() {
-    return library.findIndex(book => {
+    return library.findIndex((book) => {
       return book.title === this.title && book.author === this.author;
     });
   }
@@ -59,13 +61,13 @@ class Book {
     const bookIndex = this.findIndex();
     library.splice(bookIndex, 1);
     document.querySelectorAll('.card')[bookIndex].remove();
-  
+
     updateNbOfBooks();
   }
 }
 
 const form = document.querySelector('#add-book-form');
-form.addEventListener('submit', event => {
+form.addEventListener('submit', (event) => {
   // Prevent the form from submitting
   event.preventDefault();
 
@@ -102,7 +104,6 @@ function createBookFromInputs() {
   return book;
 }
 
-
 document.querySelector('#row-display-btn').addEventListener('click', () => {
   document.querySelector('#library-list').classList.remove('col-display');
 });
@@ -110,11 +111,9 @@ document.querySelector('#col-display-btn').addEventListener('click', () => {
   document.querySelector('#library-list').classList.add('col-display');
 });
 
-
 function updateNbOfBooks() {
   document.querySelector('#nb-of-books').textContent = library.length;
 }
-
 
 function openModal() {
   document.querySelector('#modal').classList.remove('hidden');
@@ -130,7 +129,7 @@ const closeModalButton = document.querySelector('#close-modal-btn');
 closeModalButton.addEventListener('click', closeModal);
 
 const modal = document.querySelector('#modal');
-modal.addEventListener('click', event => {
+modal.addEventListener('click', (event) => {
   // If user clicks outside of modal content, close modal
   if (event.target === modal) closeModal();
 });
