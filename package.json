@@ -18,5 +18,9 @@
   "homepage": "https://github.com/nelrnd/library-app#readme",
   "dependencies": {
     "firebase": "^9.17.2"
+  },
+  "devDependencies": {
+    "webpack": "^5.76.1",
+    "webpack-cli": "^5.0.1"
   }
 }
