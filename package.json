@@ -1,0 +1,22 @@
+{
+  "name": "library-app",
+  "version": "1.0.0",
+  "description": "A simple library app that lets you list books.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nelrnd/library-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nelrnd/library-app/issues"
+  },
+  "homepage": "https://github.com/nelrnd/library-app#readme",
+  "dependencies": {
+    "firebase": "^9.17.2"
+  }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library App</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="./assets/logo.png" />
+    <script src="index.js" type="module"></script>
+  </head>
+  <body>
+    <header>
+      <img src="assets/logo.png" alt="library logo" />
+      <h1>My Library App</h1>
+      <button id="open-modal-btn" class="main push-right">Add New Book</button>
+    </header>
+
+    <div id="modal" class="hidden">
+      <div class="modal-content">
+        <button id="close-modal-btn" class="icon-btn">
+          <img src="./assets/close.svg" alt="close icon" />
+        </button>
+        <form novalidate action="" method="" id="add-book-form">
+          <ul>
+            <li>
+              <label for="title">Book title</label>
+              <input type="text" id="title" name="book-title" required />
+            </li>
+            <li>
+              <label for="author">Author</label>
+              <input type="text" id="author" name="book-author" required />
+            </li>
+            <li>
+              <label for="nb-of-pages">Nb. of pages</label>
+              <input
+                type="number"
+                id="nb-of-pages"
+                name="nb-of-pages"
+                required
+              />
+            </li>
+            <li>
+              <input type="checkbox" id="read-status" name="book-read-status" />
+              <label for="read-status">I have read it already</label>
+            </li>
+            <li>
+              <button type="submit" class="main">Add book to library</button>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+
+    <div class="library-top-bar">
+      <p><span id="nb-of-books">0</span> books</p>
+      <button id="row-display-btn" class="icon-btn push-right">
+        <img src="./assets/grid-row.svg" alt="display cards in rows icon" />
+      </button>
+      <button id="col-display-btn" class="icon-btn">
+        <img src="./assets/grid-col.svg" alt="display cards in columns icon" />
+      </button>
+    </div>
+
+    <div id="library-list"></div>
+  </body>
+</html>
