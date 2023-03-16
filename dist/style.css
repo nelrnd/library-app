@@ -1,173 +1,253 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
-
 :root {
-  --main: #009C93;
-  --light: #D4ECEB;
-  --grey: #DFDFDF;
+  --main: #009c93;
+  --soft: #dcebf0;
+  --grey: #efefef;
+  --dark: rgba(0, 0, 0, 0.8);
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 18px;
+  font-family: 'Hepta Slab', Arial, sans-serif;
 }
 
 body {
-  font-family: Lato, sans-serif;
-  background-color: var(--light);
+  background-color: var(--soft);
 }
 
-ul {
-  list-style: none;
-}
-
-header {
-  background-color: white;
-  height: 100px;
-  padding: 0 7.5vw;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  box-shadow: 0 2px 2px rgba(0,0,0,.1);
-}
-
-header h1 {
-  font-size: 30px;
-}
-
-.push-right {
-  margin-left: auto;
-}
-
-button.main {
-  font-size: 20px;
-  font-weight: bold;
-  padding: 12px 20px;
-  color: white;
-  background-color: var(--main);
-  border: solid 2px transparent;
-  border-radius: 10px;
+button {
   cursor: pointer;
 }
-
-button.main:hover,
-button.smaller {
-  color: var(--main);
-  background-color: transparent;
-  border-color: var(--main);
-}
-
-button.smaller {
-  font-size: 18px;
-  font-weight: normal;
-}
-
-button.smaller:hover,
-button.smaller.active {
-  color: white;
-  background-color: var(--main);
-  border: solid 2px transparent;
-}
-
-#library-list {
-  padding: 0 7.5vw;
-  display: grid;
-  gap: 1rem;
+button:hover {
+  opacity: 0.7;
 }
 
 .card {
   background-color: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow);
+  border-radius: 4px;
+}
 
-  display: grid;
-  grid-template-columns: repeat(3, 1fr) 150px 150px;
+.navbar {
+  height: 100px;
+  padding: 0 120px;
+  background-color: white;
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-size: 1.875rem;
+}
+
+.navbar-button {
+  font-size: 1.125rem;
+  color: var(--dark);
+  background-color: var(--grey);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+}
+
+main {
+  padding: 0 120px 160px 120px;
+}
+
+.topbar {
+  font-size: 1.125rem;
+  color: var(--dark);
+  height: 60px;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  padding: 0 14px 0 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar .buttons {
+  display: flex;
+  justify-content: end;
   align-items: center;
   gap: 1rem;
 }
 
-#library-list.col-display {
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-}
-#library-list.col-display .card {
-  grid-template-columns: 1fr;
-}
-
-/* Library top bar styling */
-
-.library-top-bar {
-  background-color: white;
-  margin: 2rem 7.5vw 1rem;
-  padding: .5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 2px rgba(0,0,0,.1);
-
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-}
-
-button.icon-btn {
+.topbar-button {
+  width: 32px;
+  height: 32px;
   background-color: var(--grey);
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border: none;  
+  border: none;
+  border-radius: 4px;
+  display: grid;
+  place-content: center;
+}
+
+.topbar-button img {
+  display: block;
+}
+
+.books {
+  display: grid;
+  gap: 1rem;
+}
+.books.rows-display {
+  grid-template-columns: 1fr;
+  grid-auto-rows: 80px;
+}
+.books.grid-display {
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+}
+
+.book {
+  font-size: 1.125rem;
+  color: var(--dark);
+  padding: 0 16px 0 28px;
+  display: grid;
+  gap: 1rem;
+}
+.books.rows-display .book {
+  grid-template-columns: 1fr 1fr 1fr 1.5fr;
+  align-items: center;
+}
+.books.grid-display .book {
+  grid-template-columns: 1fr;
+  padding: 2rem;
+}
+
+.book h2 {
+  font-size: 1.125rem;
+}
+
+.book .buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.book-button {
+  font-size: 1rem;
+  color: var(--main);
+  background-color: transparent;
+  border: 2px solid var(--main);
+  padding: 12px 0;
+  border-radius: 4px;
+}
+
+.book-button.filled {
+  color: white;
+  background-color: var(--main);
+}
+
+.add-button {
+  color: white;
+  background-color: var(--main);
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 16px 32px;
+  border: none;
   border-radius: 8px;
-  cursor: pointer;
-  opacity: 0.7;
-}
-button.icon-btn:hover {
-  opacity: 1;
-}
+  box-shadow: var(--shadow);
 
-/* Modal styling */
-
-.hidden {
-  display: none !important;
+  position: fixed;
+  bottom: 64px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-#modal {
-  position: absolute;
+.add-modal-wrapper {
+  position: fixed;
   top: 0;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  z-index: 10;
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0, 0, 0, 0.2);
 
-  /* Center modal content */
+  display: grid;
+  place-content: center;
+}
+
+.add-modal {
+  width: 480px;
+  padding: 32px;
+  color: var(--dark);
+}
+
+.add-modal h2 {
+  font-size: 1.5rem;
+  color: var(--dark);
+  margin-bottom: 1.5rem;
+}
+
+.add-modal .row {
+  margin-bottom: 24px;
+}
+
+.add-modal .check-row {
   display: flex;
-  justify-content: center;
+  gap: 12px;
   align-items: center;
 }
 
-.modal-content {
-  width: min(400px, 100%);
-  padding: 2rem;
-  background-color: white;
-  border-radius: 20px;
-  box-shadow: 0 2px 2px rgba(0,0,0,0.1);
-  position: relative;
+.add-modal label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  margin-left: 4px;
 }
 
-.modal-content li {
-  margin-top: 1rem;
-}
-
-.modal-content label + input {
+.add-modal input:not([type='checkbox']) {
   display: block;
   width: 100%;
-  margin-top: .5rem;
-  padding: 12px;
-  border: solid 2px var(--grey);
-  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1.125rem;
+  color: var(--dark);
+  border: 2px solid var(--grey);
+  border-radius: 4px;
+}
+.add-modal input:not([type='checkbox']):focus {
+  border-color: var(--main);
+  outline: none;
 }
 
-#close-modal-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+.add-modal input[type='checkbox'] {
+  width: 24px;
+  height: 24px;
+  display: initial;
+}
+
+.add-modal input[type='checkbox'] + label {
+  display: initial;
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.add-modal .buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.add-modal button {
+  font-size: 1.125rem;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+}
+
+.primary-button {
+  color: white;
+  background-color: var(--main);
+}
+
+.secondary-button {
+  color: var(--dark);
+  background-color: var(--grey);
+}
+
+.hidden {
+  display: none;
 }
