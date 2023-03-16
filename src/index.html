@@ -60,6 +60,7 @@
               id="title"
               name="title"
               placeholder="Harry Potter"
+              required
             />
           </div>
 
@@ -70,12 +71,20 @@
               id="author"
               name="author"
               placeholder="J.K. Rowling"
+              required
             />
           </div>
 
           <div class="row">
             <label for="pages">Nb. of pages</label>
-            <input type="number" id="pages" name="pages" placeholder="223" />
+            <input
+              type="number"
+              id="pages"
+              name="pages"
+              placeholder="223"
+              min="1"
+              required
+            />
           </div>
 
           <div class="row check-row">
