@@ -32,7 +32,7 @@
 
     <main>
       <div class="topbar card">
-        <p>7 books</p>
+        <p id="books-number">0 book</p>
         <div class="buttons">
           <button class="topbar-button" id="rows-button">
             <img src="./assets/display-rows.svg" alt="Display books in rows" />
@@ -43,26 +43,7 @@
         </div>
       </div>
 
-      <div class="books rows-display" id="books">
-        <div class="book card">
-          <h2>Star Wars</h2>
-          <p>George Lucas</p>
-          <p>320 pages</p>
-          <div class="buttons">
-            <button class="book-button">Not read yet</button>
-            <button class="book-button">Remove</button>
-          </div>
-        </div>
-        <div class="book card">
-          <h2>Star Wars</h2>
-          <p>George Lucas</p>
-          <p>320 pages</p>
-          <div class="buttons">
-            <button class="book-button filled">Already read</button>
-            <button class="book-button">Remove</button>
-          </div>
-        </div>
-      </div>
+      <div class="books rows-display" id="books"></div>
     </main>
 
     <button class="add-button" id="add-button">+ Add book</button>
