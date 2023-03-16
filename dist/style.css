@@ -38,6 +38,7 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
 }
 
 .navbar-logo {
@@ -51,6 +52,28 @@ button:hover {
   padding: 12px 24px;
   border: none;
   border-radius: 4px;
+}
+
+#user-info {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-left: auto;
+}
+
+#user-picture {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--grey);
+  border: 1px solid var(--grey);
+
+  background-size: cover;
+  background-position: center;
+}
+
+#user-name {
+  font-size: 1.125rem;
 }
 
 main {
@@ -249,5 +272,5 @@ main {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }

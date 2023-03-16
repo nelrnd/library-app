@@ -27,7 +27,14 @@
   <body>
     <header class="navbar">
       <h1 class="navbar-logo">📚 Library App</h1>
-      <button class="navbar-button">Sign in</button>
+      <div class="hidden" id="user-info">
+        <div id="user-picture"></div>
+        <p id="user-name"></p>
+      </div>
+      <button class="navbar-button hidden" id="sign-out-button">
+        Sign out
+      </button>
+      <button class="navbar-button" id="sign-in-button">Sign in</button>
     </header>
 
     <main>

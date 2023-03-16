@@ -30,6 +30,35 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+// Signs-in Library App
+async function signIn() {
+  // Sign in Firebase using popup auth and Google as the provider
+  const provider = new GoogleAuthProvider();
+  await signInWithPopup(getAuth(), provider);
+}
+
+// Signs-out of Library App
+function signOutUser() {
+  // Sign out of Firebase
+  signOut(getAuth());
+}
+
+// Initialize firebase auth
+function initFirebaseAuth() {
+  // Listen to auth state changes
+  onAuthStateChanged(getAuth(), authStateObserver);
+}
+
+// Returns the signed-in user's profile picture URL
+function getProfilePicUrl() {
+  return getAuth().currentUser.photoURL || '/assets/profile_placeholder.png';
+}
+
+// Returns the signed-in user's display name
+function getUserName() {
+  return getAuth().currentUser.displayName;
+}
+
 // App logic
 
 const books = [];
@@ -167,3 +196,34 @@ function displayAsGrid() {
 
 rowsButton.addEventListener('click', displayAsRows);
 gridButton.addEventListener('click', displayAsGrid);
+
+// Handle sign-in and sign-out
+
+const signInButton = document.getElementById('sign-in-button');
+const signOutButton = document.getElementById('sign-out-button');
+const userInfo = document.getElementById('user-info');
+const userPictureElem = document.getElementById('user-picture');
+const userNameElem = document.getElementById('user-name');
+
+signInButton.addEventListener('click', signIn);
+signOutButton.addEventListener('click', signOutUser);
+
+function authStateObserver(user) {
+  if (user) {
+    const profilePicUrl = getProfilePicUrl();
+    const userName = getUserName();
+
+    userPictureElem.style.backgroundImage = `url(${profilePicUrl})`;
+    userNameElem.textContent = userName;
+
+    userInfo.classList.remove('hidden');
+    signInButton.classList.add('hidden');
+    signOutButton.classList.remove('hidden');
+  } else {
+    userInfo.classList.add('hidden');
+    signInButton.classList.remove('hidden');
+    signOutButton.classList.add('hidden');
+  }
+}
+
+initFirebaseAuth();
