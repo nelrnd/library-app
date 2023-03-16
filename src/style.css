@@ -69,7 +69,7 @@ main {
   align-items: center;
 }
 
-.buttons {
+.topbar .buttons {
   display: flex;
   justify-content: end;
   align-items: center;
@@ -91,24 +91,41 @@ main {
 }
 
 .books {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 1rem;
+}
+.books.rows-display {
+  grid-template-columns: 1fr;
+  grid-auto-rows: 80px;
+}
+.books.grid-display {
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
 }
 
 .book {
   font-size: 1.125rem;
   color: var(--dark);
-  height: 80px;
   padding: 0 16px 0 28px;
   display: grid;
+  gap: 1rem;
+}
+.books.rows-display .book {
   grid-template-columns: 1fr 1fr 1fr 1.5fr;
   align-items: center;
-  gap: 1rem;
+}
+.books.grid-display .book {
+  grid-template-columns: 1fr;
+  padding: 2rem;
 }
 
 .book h2 {
   font-size: 1.125rem;
+}
+
+.book .buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 .book-button {

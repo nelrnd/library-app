@@ -110,7 +110,26 @@ function openModal() {
 
 function closeModal() {
   modalWrapper.classList.add('hidden');
+  clearFields();
 }
 
 addButton.addEventListener('click', openModal);
 cancelButton.addEventListener('click', closeModal);
+
+// Handle book display mode
+
+const rowsButton = document.getElementById('rows-button');
+const gridButton = document.getElementById('grid-button');
+
+function displayAsRows() {
+  booksElem.classList.remove('grid-display');
+  booksElem.classList.add('rows-display');
+}
+
+function displayAsGrid() {
+  booksElem.classList.remove('rows-display');
+  booksElem.classList.add('grid-display');
+}
+
+rowsButton.addEventListener('click', displayAsRows);
+gridButton.addEventListener('click', displayAsGrid);
