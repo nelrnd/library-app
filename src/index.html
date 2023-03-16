@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Library App</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Typeface -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hepta+Slab:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="index.js" type="module"></script>
+  </head>
+
+  <body>
+    <header class="navbar">
+      <h1 class="navbar-logo">📚 Library App</h1>
+      <button class="navbar-button">Sign in</button>
+    </header>
+
+    <main>
+      <div class="topbar card">
+        <p>7 books</p>
+        <div class="buttons">
+          <button class="topbar-button">
+            <img src="./assets/display-rows.svg" alt="Display books in rows" />
+          </button>
+          <button class="topbar-button">
+            <img src="./assets/display-grid.svg" alt="Display books in grid" />
+          </button>
+        </div>
+      </div>
+
+      <div class="books">
+        <div class="book card">
+          <h2>Star Wars</h2>
+          <p>George Lucas</p>
+          <p>320 pages</p>
+          <div class="buttons">
+            <button class="book-button">Not read yet</button>
+            <button class="book-button">Remove</button>
+          </div>
+        </div>
+        <div class="book card">
+          <h2>Star Wars</h2>
+          <p>George Lucas</p>
+          <p>320 pages</p>
+          <div class="buttons">
+            <button class="book-button filled">Already read</button>
+            <button class="book-button">Remove</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <button class="add-button">+ Add book</button>
+
+    <div class="add-modal-wrapper hidden">
+      <div class="add-modal card">
+        <h2>Add a book</h2>
+
+        <div class="row">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Harry Potter"
+          />
+        </div>
+
+        <div class="row">
+          <label for="author">Author</label>
+          <input
+            type="text"
+            id="author"
+            name="author"
+            placeholder="J.K. Rowling"
+          />
+        </div>
+
+        <div class="row">
+          <label for="pages">Nb. of pages</label>
+          <input type="number" id="pages" name="pages" placeholder="223" />
+        </div>
+
+        <div class="row check-row">
+          <input type="checkbox" id="read" name="read" />
+          <label for="read">I have read this book</label>
+        </div>
+
+        <div class="buttons">
+          <button class="secondary-button">Cancel</button>
+          <button class="primary-button">Add</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
