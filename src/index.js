@@ -1,3 +1,20 @@
+// Firebase logic
+
+import { initializeApp } from 'firebase/app';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyDIhpv4gNVD3F_m6iQy6H2_rj-ZOwkLGVs',
+  authDomain: 'libraryapp-e6f8d.firebaseapp.com',
+  projectId: 'libraryapp-e6f8d',
+  storageBucket: 'libraryapp-e6f8d.appspot.com',
+  messagingSenderId: '778636653006',
+  appId: '1:778636653006:web:563882c1ee68a1e0a8bb9f',
+};
+
+const app = initializeApp(firebaseConfig);
+
+// App logic
+
 const books = [];
 
 function createBook(title, author, pages, read) {
