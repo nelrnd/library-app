@@ -84,11 +84,8 @@ function loadBooks() {
   // Create the query to load the books and listen for new ones
   const booksQuery = query(
     collection(getFirestore(), getAuth().currentUser.uid),
-    orderBy('timestamp', 'desc')
+    orderBy('timestamp', 'asc')
   );
-
-  console.log('calling');
-  console.log(getAuth().currentUser.uid);
 
   // Start listening to the query
   onSnapshot(booksQuery, function (snapshot) {
@@ -97,7 +94,7 @@ function loadBooks() {
         console.log('removing');
       } else {
         const book = change.doc.data();
-        console.log('Adding: ', book);
+        addBook(book);
       }
     });
   });
@@ -186,11 +183,14 @@ function handleFormSubmit(event) {
   const read = readCheckbox.checked;
 
   const book = createBook(title, author, pages, read);
-  addBook(book);
 
   // Save book in databse if user is signed-in
+  // Else, directly add book
+  // (book wil be added once saved to database too)
   if (isUserSignedIn()) {
     saveBook(book);
+  } else {
+    addBook(book);
   }
 
   // Clear form fields and close modal
