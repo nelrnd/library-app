@@ -256,6 +256,14 @@ function toggleRead(book, button) {
   }
 }
 
+// Handle clearing list of books
+
+function clearBooks() {
+  books.length = 0;
+  booksElem.innerHTML = null;
+  updateBooksNumber();
+}
+
 // Handle modal logic
 
 const addButton = document.getElementById('add-button');
@@ -313,6 +321,9 @@ signInButton.addEventListener('click', signIn);
 signOutButton.addEventListener('click', signOutUser);
 
 function authStateObserver(user) {
+  // Whether user sign-in or sign-out, we want to clear books list
+  clearBooks();
+
   if (user) {
     const profilePicUrl = getProfilePicUrl();
     const userName = getUserName();
