@@ -19,6 +19,7 @@ import {
   onSnapshot,
   doc,
   serverTimestamp,
+  updateDoc,
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -98,6 +99,18 @@ async function deleteBookFromDb(book) {
   }
 }
 
+// Update a book read status
+async function updateBookReadStatus(book) {
+  try {
+    const bookRef = doc(db, getUserUid(), book.id);
+    await updateDoc(bookRef, {
+      read: book.read,
+    });
+  } catch (error) {
+    console.error('Error updating book read status: ', error);
+  }
+}
+
 // Loads books stored in catalog
 async function loadBooks() {
   const querySnapshot = await getDocs(
@@ -107,6 +120,7 @@ async function loadBooks() {
 
   querySnapshot.forEach((doc) => {
     const book = doc.data();
+    book.id = doc.id;
     addBook(book);
   });
 }
@@ -140,11 +154,7 @@ function createBookElem(book) {
   readButton.textContent = book.read ? 'Already read' : 'Not read yet';
   removeButton.textContent = 'Remove';
 
-  readButton.addEventListener('click', () => {
-    book.read = !book.read;
-    readButton.className = 'book-button' + (book.read ? ' filled' : '');
-    readButton.textContent = book.read ? 'Already read' : 'Not read yet';
-  });
+  readButton.addEventListener('click', () => toggleRead(book, readButton));
 
   removeButton.addEventListener('click', () => removeBook(book));
 
@@ -225,13 +235,27 @@ function removeBook(book) {
   book.element.remove();
 
   // If user is signed-in and book is saved in database,
-  // remove book from database
   if (isUserSignedIn() && book.id) {
+    // Remove book from database
     deleteBookFromDb(book);
   }
 
   // Update number of books
   updateBooksNumber();
+}
+
+// Handle toggling read status
+
+function toggleRead(book, button) {
+  book.read = !book.read;
+  button.className = 'book-button' + (book.read ? ' filled' : '');
+  button.textContent = book.read ? 'Already read' : 'Not read yet';
+
+  // If user is signed-in and book is saved in databse
+  if (isUserSignedIn() && book.id) {
+    // Update book read status
+    updateBookReadStatus(book);
+  }
 }
 
 // Handle modal logic
