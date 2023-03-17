@@ -43,6 +43,11 @@ function signOutUser() {
   signOut(getAuth());
 }
 
+// Returns true if a user is signed-in
+function isUserSignedIn() {
+  return !!getAuth().currentUser;
+}
+
 // Initialize firebase auth
 function initFirebaseAuth() {
   // Listen to auth state changes
@@ -153,8 +158,10 @@ function addBookFromForm() {
   // Update number of books
   updateBooksNumber();
 
-  // Save book in database
-  saveBook(book);
+  // Save book in database if a user is signed-in
+  if (isUserSignedIn()) {
+    saveBook(book);
+  }
 
   // Clear form fields and close modal
   clearFields();
