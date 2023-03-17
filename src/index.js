@@ -59,6 +59,20 @@ function getUserName() {
   return getAuth().currentUser.displayName;
 }
 
+// Saves a new book to Firestore database
+async function saveBook(book) {
+  try {
+    await addDoc(collection(getFirestore(), getAuth().currentUser.uid), {
+      title: book.title,
+      author: book.author,
+      pages: book.pages,
+      read: book.read,
+    });
+  } catch (error) {
+    console.error('Error saving book to database: ', error);
+  }
+}
+
 // App logic
 
 const books = [];
@@ -136,6 +150,9 @@ function addBookFromForm() {
   const bookElem = createBookElem(book);
   displayBookElem(bookElem);
 
+  // Save book in database
+  saveBook(book);
+
   // Clear form fields and close modal
   clearFields();
   closeModal();
@@ -168,7 +185,6 @@ const modalWrapper = document.getElementById('modal-wrapper');
 
 function openModal() {
   modalWrapper.classList.remove('hidden');
-  console.log('hey');
 }
 
 function closeModal() {
