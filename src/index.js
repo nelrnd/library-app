@@ -150,6 +150,9 @@ function addBookFromForm() {
   const bookElem = createBookElem(book);
   displayBookElem(bookElem);
 
+  // Update number of books
+  updateBooksNumber();
+
   // Save book in database
   saveBook(book);
 
@@ -175,6 +178,7 @@ addBookForm.addEventListener('submit', (event) => {
 function removeBook(book) {
   const index = books.findIndex((b) => b === book);
   books.splice(index, 1);
+  updateBooksNumber();
 }
 
 // Handle modal logic
@@ -212,6 +216,15 @@ function displayAsGrid() {
 
 rowsButton.addEventListener('click', displayAsRows);
 gridButton.addEventListener('click', displayAsGrid);
+
+// Handle updating number of books info
+
+const booksNumberElem = document.getElementById('books-number');
+
+function updateBooksNumber() {
+  booksNumberElem.textContent =
+    books.length + (books.length < 2 ? ' book' : ' books');
+}
 
 // Handle sign-in and sign-out
 
