@@ -12,6 +12,7 @@ import {
   getFirestore,
   collection,
   addDoc,
+  getDocs,
   deleteDoc,
   query,
   orderBy,
@@ -90,30 +91,23 @@ async function saveBook(book) {
 // Delete a book from Firestore database
 async function deleteBookFromDb(book) {
   try {
-    await deleteDoc(db, getUserUid(), book.id);
+    const docRef = doc(db, getUserUid(), book.id);
+    await deleteDoc(docRef);
   } catch (error) {
     console.error('Error deleting book from database: ', error);
   }
 }
 
-// Loads books history and listen for upcoming ones
-function loadBooks() {
-  // Create the query to load the books and listen for new ones
-  const booksQuery = query(
+// Loads books stored in catalog
+async function loadBooks() {
+  const querySnapshot = await getDocs(
     collection(db, getUserUid()),
     orderBy('timestamp', 'asc')
   );
 
-  // Start listening to the query
-  onSnapshot(booksQuery, function (snapshot) {
-    snapshot.docChanges().forEach(function (change) {
-      if (change.type === 'removed') {
-        console.log('removing');
-      } else {
-        const book = change.doc.data();
-        addBook(book);
-      }
-    });
+  querySnapshot.forEach((doc) => {
+    const book = doc.data();
+    addBook(book);
   });
 }
 
@@ -152,10 +146,7 @@ function createBookElem(book) {
     readButton.textContent = book.read ? 'Already read' : 'Not read yet';
   });
 
-  removeButton.addEventListener('click', () => {
-    bookElem.remove();
-    removeBook(book);
-  });
+  removeButton.addEventListener('click', () => removeBook(book));
 
   buttons.appendChild(readButton);
   buttons.appendChild(removeButton);
@@ -179,6 +170,9 @@ function addBook(book) {
   const bookElem = createBookElem(book);
   displayBookElem(bookElem);
 
+  // Set element as book property
+  book.element = bookElem;
+
   // Update number of books
   updateBooksNumber();
 }
@@ -200,17 +194,13 @@ function handleFormSubmit(event) {
   const read = readCheckbox.checked;
 
   const book = createBook(title, author, pages, read);
+  addBook(book);
 
-  // Save book in databse if user is signed-in
-  // Else, directly add book
-  // (book wil be added once saved to database too)
+  // If user is signed-in, save book to database
   if (isUserSignedIn()) {
     saveBook(book);
-  } else {
-    addBook(book);
   }
 
-  // Clear form fields and close modal
   clearFields();
   closeModal();
 }
@@ -227,8 +217,20 @@ addBookForm.addEventListener('submit', handleFormSubmit);
 // Handle removing book logic
 
 function removeBook(book) {
+  // Remove book from books array
   const index = books.findIndex((b) => b === book);
   books.splice(index, 1);
+
+  // Remove book element
+  book.element.remove();
+
+  // If user is signed-in and book is saved in database,
+  // remove book from database
+  if (isUserSignedIn() && book.id) {
+    deleteBookFromDb(book);
+  }
+
+  // Update number of books
   updateBooksNumber();
 }
 
