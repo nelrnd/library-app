@@ -72,15 +72,41 @@ async function saveBook(book) {
       author: book.author,
       pages: book.pages,
       read: book.read,
+      timestamp: serverTimestamp(),
     });
   } catch (error) {
     console.error('Error saving book to database: ', error);
   }
 }
 
+// Loads books history and listen for upcoming ones
+function loadBooks() {
+  // Create the query to load the books and listen for new ones
+  const booksQuery = query(
+    collection(getFirestore(), getAuth().currentUser.uid),
+    orderBy('timestamp', 'desc')
+  );
+
+  console.log('calling');
+  console.log(getAuth().currentUser.uid);
+
+  // Start listening to the query
+  onSnapshot(booksQuery, function (snapshot) {
+    snapshot.docChanges().forEach(function (change) {
+      if (change.type === 'removed') {
+        console.log('removing');
+      } else {
+        const book = change.doc.data();
+        console.log('Adding: ', book);
+      }
+    });
+  });
+}
+
 // App logic
 
 const books = [];
+const booksElem = document.getElementById('books');
 
 function createBook(title, author, pages, read) {
   return { title, author, pages, read };
@@ -127,13 +153,23 @@ function createBookElem(book) {
   return bookElem;
 }
 
-const booksElem = document.getElementById('books');
-
 function displayBookElem(bookElem) {
   booksElem.appendChild(bookElem);
 }
 
-// Handle adding book logic
+function addBook(book) {
+  // Add book to books array
+  books.push(book);
+
+  // Create and display book element
+  const bookElem = createBookElem(book);
+  displayBookElem(bookElem);
+
+  // Update number of books
+  updateBooksNumber();
+}
+
+// Handle form submit
 
 const addBookForm = document.getElementById('add-form');
 const titleField = document.getElementById('title');
@@ -141,24 +177,18 @@ const authorField = document.getElementById('author');
 const pagesField = document.getElementById('pages');
 const readCheckbox = document.getElementById('read');
 
-function addBookFromForm() {
+function handleFormSubmit(event) {
+  event.preventDefault();
+
   const title = titleField.value;
   const author = authorField.value;
   const pages = parseInt(pagesField.value);
   const read = readCheckbox.checked;
 
-  // Create book object and add it to books array
   const book = createBook(title, author, pages, read);
-  books.push(book);
+  addBook(book);
 
-  // Create book element and display it
-  const bookElem = createBookElem(book);
-  displayBookElem(bookElem);
-
-  // Update number of books
-  updateBooksNumber();
-
-  // Save book in database if a user is signed-in
+  // Save book in databse if user is signed-in
   if (isUserSignedIn()) {
     saveBook(book);
   }
@@ -175,10 +205,7 @@ function clearFields() {
   readCheckbox.checked = false;
 }
 
-addBookForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  addBookFromForm();
-});
+addBookForm.addEventListener('submit', handleFormSubmit);
 
 // Handle removing book logic
 
@@ -255,6 +282,8 @@ function authStateObserver(user) {
     userInfo.classList.remove('hidden');
     signInButton.classList.add('hidden');
     signOutButton.classList.remove('hidden');
+
+    loadBooks();
   } else {
     userInfo.classList.add('hidden');
     signInButton.classList.remove('hidden');
