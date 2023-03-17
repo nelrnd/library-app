@@ -12,6 +12,7 @@ import {
   getFirestore,
   collection,
   addDoc,
+  deleteDoc,
   query,
   orderBy,
   onSnapshot,
@@ -29,6 +30,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // Signs-in Library App
 async function signIn() {
@@ -64,18 +66,33 @@ function getUserName() {
   return getAuth().currentUser.displayName;
 }
 
+// Returns the signed-in user's uid
+function getUserUid() {
+  return getAuth().currentUser.uid;
+}
+
 // Saves a new book to Firestore database
 async function saveBook(book) {
   try {
-    await addDoc(collection(getFirestore(), getAuth().currentUser.uid), {
+    const docRef = await addDoc(collection(db, getUserUid()), {
       title: book.title,
       author: book.author,
       pages: book.pages,
       read: book.read,
       timestamp: serverTimestamp(),
     });
+    book.id = docRef.id;
   } catch (error) {
     console.error('Error saving book to database: ', error);
+  }
+}
+
+// Delete a book from Firestore database
+async function deleteBookFromDb(book) {
+  try {
+    await deleteDoc(db, getUserUid(), book.id);
+  } catch (error) {
+    console.error('Error deleting book from database: ', error);
   }
 }
 
@@ -83,7 +100,7 @@ async function saveBook(book) {
 function loadBooks() {
   // Create the query to load the books and listen for new ones
   const booksQuery = query(
-    collection(getFirestore(), getAuth().currentUser.uid),
+    collection(db, getUserUid()),
     orderBy('timestamp', 'asc')
   );
 
